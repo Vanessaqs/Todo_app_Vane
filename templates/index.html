@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Lugares{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">✈️🌍Lugares que Quiero Visitar🏖️🚂</h1>
+
+    <!-- Formulario para agregar lugares -->
+    <div class="form-section">
+        <form action="/agregar" method="post" class="row g-2">
+            <div class="col-md-6">
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre del lugar" required>
+            </div>
+            <div class="col-md-4">
+                <select name="tipo" class="form-control" required>
+                    <option value="Nacional">Nacional</option>
+                    <option value="Internacional">Internacional</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Agregar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de lugares -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Visitado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lugar in lugares %}
+                <tr>
+                    <td>{{ lugar.id }}</td>
+                    <td>{{ lugar.nombre }}</td>
+                    <td>{{ lugar.tipo }}</td>
+                    <td>{{ lugar.visitado }}</td>
+                    <td>
+                        <form action="/confirmar/{{ lugar.id }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn-icon">
+                                {% if lugar.visitado == "Sí" %}
+                                    ✅
+                                {% else %}
+                                    ❌
+                                {% endif %}
+                            </button>
+                        </form>
+                        <form action="/eliminar/{{ lugar.id }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn-icon">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
